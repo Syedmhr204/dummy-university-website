@@ -1,4 +1,4 @@
-<//*<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -89,6 +89,7 @@
       <h1>🎓 University of MHR — Admin Dashboard</h1>
       <div style="display:flex; gap:14px; align-items:center;">
         <a href="index.html">← Back to Website</a>
+        <a href="university_of_mhr_faculty.html">Faculty Page</a>
         <button class="logout-btn" onclick="handleLogout()">Logout</button>
       </div>
     </div>
@@ -105,22 +106,78 @@
     <div class="counts">
       <div class="count-pill"><div class="num" id="appCount">0</div><div class="label">Applications</div></div>
       <div class="count-pill"><div class="num" id="inqCount">0</div><div class="label">Inquiries</div></div>
+      <div class="count-pill"><div class="num" id="facCount">0</div><div class="label">Faculty Members</div></div>
     </div>
 
     <div class="tabs">
       <button class="tab-btn active" id="tabApps" onclick="switchTab('applications')">📝 Applications</button>
       <button class="tab-btn" id="tabInqs" onclick="switchTab('inquiries')">💬 Inquiries</button>
+      <button class="tab-btn" id="tabFac" onclick="switchTab('faculty')">👥 Faculty</button>
     </div>
 
     <div class="toolbar">
       <input type="text" id="searchBox" placeholder="Search by name, email, program..." oninput="render()">
       <div>
+        <button class="btn btn-primary" id="addFacultyBtn" onclick="openFacultyForm()" style="display:none;background:#b45309;">➕ Add Faculty</button>
         <button class="btn btn-primary" onclick="exportData()">⬇️ Export JSON</button>
         <button class="btn btn-danger" onclick="clearData()">🗑️ Clear All (this browser)</button>
       </div>
     </div>
 
     <div id="tableWrap"></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="facultyModalBg" onclick="if(event.target===this) closeFacultyForm()">
+  <div class="modal" style="max-width:640px;">
+    <span class="modal-close" onclick="closeFacultyForm()">×</span>
+    <h2 id="facultyFormTitle">➕ Add Faculty Member</h2>
+    <form onsubmit="saveFaculty(event)">
+      <div class="field"><label>Full Name *</label><input id="ff_name" type="text" required placeholder="Prof. Dr. Full Name"></div>
+      <div class="form-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div class="field"><label>Designation *</label>
+          <select id="ff_designation" required style="width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:15px;">
+            <option value="">Select</option>
+            <option>Professor</option><option>Associate Professor</option>
+            <option>Assistant Professor</option><option>Lecturer</option>
+            <option>Senior Lecturer</option><option>Adjunct Faculty</option>
+          </select>
+        </div>
+        <div class="field"><label>Role *</label>
+          <select id="ff_role" required style="width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:15px;">
+            <option value="member">Faculty Member</option>
+            <option value="hod">Head of Department (HOD)</option>
+            <option value="chairman">Chairman</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div class="field"><label>Faculty *</label>
+          <select id="ff_faculty" required style="width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:15px;">
+            <option value="">Select Faculty</option>
+            <option value="engineering">Faculty of Engineering</option>
+            <option value="business">Faculty of Business</option>
+            <option value="science">Faculty of Science &amp; IT</option>
+            <option value="health">Faculty of Health Sciences</option>
+            <option value="law">Faculty of Law</option>
+            <option value="arts">Faculty of Arts &amp; Social Science</option>
+          </select>
+        </div>
+        <div class="field"><label>Department *</label><input id="ff_department" type="text" required placeholder="e.g. Computer Science & Engineering"></div>
+      </div>
+      <div class="form-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div class="field"><label>Email</label><input id="ff_email" type="email" placeholder="name@universityofmhr.edu.bd"></div>
+        <div class="field"><label>Phone</label><input id="ff_phone" type="text" placeholder="+880 1XXX-XXXXXX"></div>
+      </div>
+      <div class="field"><label>Highest Education</label><input id="ff_education" type="text" placeholder="e.g. Ph.D. in CSE, BUET"></div>
+      <div class="field"><label>Specialization</label><input id="ff_specialization" type="text" placeholder="e.g. Machine Learning, Networks"></div>
+      <div class="field"><label>Short Bio</label><textarea id="ff_bio" rows="2" style="width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:15px;font-family:inherit;" placeholder="Brief profile summary..."></textarea></div>
+      <div class="field"><label>Photo (optional)</label><input id="ff_photo" type="file" accept="image/*" onchange="previewFacultyPhoto(this)"><small style="color:var(--gray);" id="ff_photoHint">JPG/PNG, will be stored in this browser</small></div>
+      <div style="display:flex;gap:10px;margin-top:18px;">
+        <button type="submit" class="btn btn-primary">💾 Save Profile</button>
+        <button type="button" class="btn btn-danger" onclick="closeFacultyForm()">Cancel</button>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -133,6 +190,7 @@
 </div>
 
 <script>
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
   let currentTab = 'applications';
 
   const DEFAULT_ADMIN = { username: 'admin', password: 'admin123' };
@@ -189,6 +247,8 @@
     currentTab = tab;
     document.getElementById('tabApps').classList.toggle('active', tab === 'applications');
     document.getElementById('tabInqs').classList.toggle('active', tab === 'inquiries');
+    document.getElementById('tabFac').classList.toggle('active', tab === 'faculty');
+    document.getElementById('addFacultyBtn').style.display = tab === 'faculty' ? '' : 'none';
     document.getElementById('searchBox').value = '';
     render();
   }
@@ -200,9 +260,12 @@
     const inqs = getInquiries();
     document.getElementById('appCount').textContent = apps.length;
     document.getElementById('inqCount').textContent = inqs.length;
+    document.getElementById('facCount').textContent = getFacultyMembers().length;
 
     const q = document.getElementById('searchBox').value.toLowerCase();
     const wrap = document.getElementById('tableWrap');
+
+    if (currentTab === 'faculty') { renderFacultyTable(q); return; }
 
     if (currentTab === 'applications') {
       const filtered = apps.filter(a =>
@@ -213,11 +276,11 @@
           <th>Application ID</th><th>Name</th><th>Email</th><th>Program</th><th>Session</th><th>Submitted</th><th>Status</th>
         </tr></thead><tbody>` +
         filtered.map((a, i) => `<tr onclick="showDetail('applications', ${apps.indexOf(a)})">
-          <td>${a.applicationId || '-'}</td>
-          <td>${a.fullNameEn || '-'}</td>
-          <td>${a.email || '-'}</td>
-          <td>${a.program || '-'}</td>
-          <td>${a.session || '-'}</td>
+          <td>${esc(a.applicationId || '-')}</td>
+          <td>${esc(a.fullNameEn || '-')}</td>
+          <td>${esc(a.email || '-')}</td>
+          <td>${esc(a.program || '-')}</td>
+          <td>${esc(a.session || '-')}</td>
           <td>${a.submittedAt ? new Date(a.submittedAt).toLocaleString() : '-'}</td>
           <td><span class="badge">Received</span></td>
         </tr>`).join('') + `</tbody></table>`;
@@ -230,10 +293,10 @@
           <th>Name</th><th>Email</th><th>Phone</th><th>Program of Interest</th><th>Submitted</th>
         </tr></thead><tbody>` +
         filtered.map((a) => `<tr onclick="showDetail('inquiries', ${inqs.indexOf(a)})">
-          <td>${a.name || '-'}</td>
-          <td>${a.email || '-'}</td>
-          <td>${a.phone || '-'}</td>
-          <td>${a.program || '-'}</td>
+          <td>${esc(a.name || '-')}</td>
+          <td>${esc(a.email || '-')}</td>
+          <td>${esc(a.phone || '-')}</td>
+          <td>${esc(a.program || '-')}</td>
           <td>${a.submittedAt ? new Date(a.submittedAt).toLocaleString() : '-'}</td>
         </tr>`).join('') + `</tbody></table>`;
     }
@@ -244,7 +307,7 @@
     document.getElementById('modalTitle').textContent = type === 'applications' ? 'Application Detail' : 'Inquiry Detail';
     const table = document.getElementById('modalTable');
     table.innerHTML = Object.entries(record).map(([k, v]) =>
-      `<tr><td>${k}</td><td>${Array.isArray(v) ? (v.join(', ') || 'None') : (v || '-')}</td></tr>`
+      `<tr><td>${esc(k)}</td><td>${Array.isArray(v) ? esc(v.join(', ') || 'None') : (String(v).startsWith('data:image') ? `<img src="${esc(v)}" style="max-width:140px;border-radius:8px">` : esc(v || '-'))}</td></tr>`
     ).join('');
     document.getElementById('modalBg').classList.add('active');
   }
@@ -252,7 +315,7 @@
   function closeModal() { document.getElementById('modalBg').classList.remove('active'); }
 
   function exportData() {
-    const payload = currentTab === 'applications' ? getApplications() : getInquiries();
+    const payload = currentTab === 'applications' ? getApplications() : currentTab === 'faculty' ? getFacultyMembers() : getInquiries();
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -262,7 +325,140 @@
 
   function clearData() {
     if (!confirm('This will permanently delete all ' + currentTab + ' saved in THIS browser. Continue?')) return;
-    localStorage.removeItem(currentTab === 'applications' ? 'mhr_applications' : 'mhr_inquiries');
+    localStorage.removeItem(currentTab === 'applications' ? 'mhr_applications' : currentTab === 'faculty' ? 'mhr_faculty' : 'mhr_inquiries');
+    render();
+  }
+
+  /* ================= FACULTY MANAGEMENT ================= */
+  function getFacultyMembers() { return JSON.parse(localStorage.getItem('mhr_faculty') || '[]'); }
+  function saveFacultyList(list) { localStorage.setItem('mhr_faculty', JSON.stringify(list)); }
+
+  const FACULTY_LABELS = {
+    engineering: 'Engineering', business: 'Business', science: 'Science & IT',
+    health: 'Health Sciences', law: 'Law', arts: 'Arts & Social Science'
+  };
+
+  function roleBadge(role) {
+    if (role === 'chairman') return '<span class="badge" style="background:#fef3c7;color:#92400e;">👑 Chairman</span>';
+    if (role === 'hod') return '<span class="badge" style="background:#dbeafe;color:#1e40af;">🎓 Head of Dept.</span>';
+    return '<span class="badge">Faculty Member</span>';
+  }
+
+  function renderFacultyTable(q) {
+    const members = getFacultyMembers();
+    const wrap = document.getElementById('tableWrap');
+    const filtered = members.filter(m =>
+      !q || [m.name, m.designation, m.role, FACULTY_LABELS[m.faculty] || m.faculty, m.department, m.email]
+        .join(' ').toLowerCase().includes(q)
+    );
+    if (!filtered.length) {
+      wrap.innerHTML = '<div class="empty">No faculty profiles yet.<br><br>Click <strong>"➕ Add Faculty"</strong> above to create the Chairman / HOD / faculty profiles — they appear on the public Faculty page (university_of_mhr_faculty.html) in this browser.</div>';
+      return;
+    }
+    wrap.innerHTML = `<table><thead><tr>
+        <th>Photo</th><th>Name</th><th>Role</th><th>Faculty</th><th>Department</th><th>Contact</th><th>Actions</th>
+      </tr></thead><tbody>` +
+      filtered.map(m => {
+        const idx = members.indexOf(m);
+        return `<tr style="cursor:default;">
+        <td>${m.photo ? `<img src="${esc(m.photo)}" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--border);">` : '<span style="font-size:24px;">👤</span>'}</td>
+        <td><strong>${esc(m.name || '-')}</strong><br><small style="color:var(--gray);">${esc(m.designation || '')}${m.education ? ' · ' + esc(m.education) : ''}</small></td>
+        <td>${roleBadge(m.role)}</td>
+        <td>${esc(FACULTY_LABELS[m.faculty] || m.faculty || '-')}</td>
+        <td>${esc(m.department || '-')}</td>
+        <td><small>${esc(m.email || '-')}<br>${m.phone || ''}</small></td>
+        <td style="white-space:nowrap;">
+          <button class="btn btn-primary" style="padding:5px 10px;font-size:12px;" onclick="editFaculty(${idx})">✏️ Edit</button>
+          <button class="btn btn-danger" style="padding:5px 10px;font-size:12px;" onclick="deleteFaculty(${idx})">🗑️</button>
+        </td>
+      </tr>`;
+      }).join('') + `</tbody></table>`;
+  }
+
+  let editingFacultyIdx = null;
+  let facultyPhotoData = '';
+
+  function openFacultyForm() {
+    editingFacultyIdx = null;
+    facultyPhotoData = '';
+    document.getElementById('facultyFormTitle').textContent = '➕ Add Faculty Member';
+    document.getElementById('ff_photoHint').textContent = 'JPG/PNG, will be stored in this browser';
+    document.querySelectorAll('#facultyModalBg input, #facultyModalBg textarea, #facultyModalBg select').forEach(el => { el.value = ''; });
+    document.getElementById('facultyModalBg').classList.add('active');
+  }
+
+  function editFaculty(idx) {
+    const m = getFacultyMembers()[idx];
+    if (!m) return;
+    editingFacultyIdx = idx;
+    facultyPhotoData = m.photo || '';
+    document.getElementById('facultyFormTitle').textContent = '✏️ Edit: ' + m.name;
+    document.getElementById('ff_photoHint').textContent = m.photo ? '✅ Photo attached (choose a new file to replace)' : 'JPG/PNG, will be stored in this browser';
+    document.getElementById('ff_name').value = m.name || '';
+    document.getElementById('ff_designation').value = m.designation || '';
+    document.getElementById('ff_role').value = m.role || 'member';
+    document.getElementById('ff_faculty').value = m.faculty || '';
+    document.getElementById('ff_department').value = m.department || '';
+    document.getElementById('ff_email').value = m.email || '';
+    document.getElementById('ff_phone').value = m.phone || '';
+    document.getElementById('ff_education').value = m.education || '';
+    document.getElementById('ff_specialization').value = m.specialization || '';
+    document.getElementById('ff_bio').value = m.bio || '';
+    document.getElementById('facultyModalBg').classList.add('active');
+  }
+
+  function closeFacultyForm() { document.getElementById('facultyModalBg').classList.remove('active'); }
+
+  function previewFacultyPhoto(input) {
+    if (input.files && input.files[0]) {
+      if (input.files[0].size > 300 * 1024) { alert('Photo too large — please use an image under 300KB for browser storage.'); input.value = ''; return; }
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        facultyPhotoData = e.target.result;
+        document.getElementById('ff_photoHint').textContent = '✅ Photo attached';
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  function saveFaculty(event) {
+    event.preventDefault();
+    const record = {
+      name: document.getElementById('ff_name').value.trim(),
+      designation: document.getElementById('ff_designation').value,
+      role: document.getElementById('ff_role').value,
+      faculty: document.getElementById('ff_faculty').value,
+      department: document.getElementById('ff_department').value.trim(),
+      email: document.getElementById('ff_email').value.trim(),
+      phone: document.getElementById('ff_phone').value.trim(),
+      education: document.getElementById('ff_education').value.trim(),
+      specialization: document.getElementById('ff_specialization').value.trim(),
+      bio: document.getElementById('ff_bio').value.trim(),
+      photo: facultyPhotoData,
+      updatedAt: new Date().toISOString()
+    };
+    const list = getFacultyMembers();
+    if (editingFacultyIdx === null) {
+      record.id = 'fac_' + Date.now();
+      record.createdAt = record.updatedAt;
+      list.push(record);
+    } else {
+      record.id = list[editingFacultyIdx].id;
+      record.createdAt = list[editingFacultyIdx].createdAt;
+      list[editingFacultyIdx] = record;
+    }
+    saveFacultyList(list);
+    closeFacultyForm();
+    render();
+  }
+
+  function deleteFaculty(idx) {
+    const m = getFacultyMembers()[idx];
+    if (!m) return;
+    if (!confirm('Delete faculty profile for "' + m.name + '"?')) return;
+    const list = getFacultyMembers();
+    list.splice(idx, 1);
+    saveFacultyList(list);
     render();
   }
 
@@ -282,4 +478,3 @@
 </script>
 
 </body>
-</html>
