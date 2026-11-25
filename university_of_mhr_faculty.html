@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>University of MHR - Faculty Members</title>
+  <style>
+    :root {
+      --primary: #006a4e;
+      --secondary: #f42a41;
+      --gold: #ffcd00;
+      --accent: #004d40;
+      --light: #f0fdf4;
+      --dark: #0f172a;
+      --gray: #64748b;
+      --border: #cbd5e1;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%);
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .top-bar {
+      background: var(--accent);
+      color: white;
+      padding: 8px 0;
+      font-size: 13px;
+    }
+
+    .top-bar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .top-bar a {
+      color: #a7f3d0;
+      text-decoration: none;
+      margin-left: 16px;
+    }
+
+    .top-bar a:first-child {
+      margin-left: 0
+    }
+
+    .top-bar a:hover {
+      color: var(--gold);
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 30px 0;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 8px;
+    }
+
+    .logo-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .logo-text h1 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: 1px;
+    }
+
+    .logo-text span {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .page-title {
+      background: var(--secondary);
+      color: white;
+      padding: 12px;
+      margin-top: 15px;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 600;
+      display: inline-block;
+      padding: 12px 40px;
+    }
+
+    .notice {
+      background: #fffbeb;
+      border: 1px solid #f59e0b;
+      color: #92400e;
+      padding: 12px 18px;
+      margin: 20px 0;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+
+    /* Chairman card */
+    .chairman-card {
+      display: flex;
+      gap: 30px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      padding: 35px;
+      margin: 25px 0;
+      border-top: 5px solid var(--gold);
+      flex-wrap: wrap;
+    }
+
+    .chairman-photo {
+      width: 180px;
+      height: 200px;
+      border-radius: 12px;
+      background: var(--light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 2px solid var(--border);
+    }
+
+    .chairman-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .faculty-photo {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+      margin: 0 auto 15px;
+      flex-shrink: 0;
+    }
+
+    .chairman-info {
+      flex: 1;
+      min-width: 260px;
+    }
+
+    .chairman-info h2 {
+      color: var(--primary);
+      font-size: 26px;
+      margin-bottom: 4px;
+    }
+
+    .chairman-info .desig {
+      color: var(--secondary);
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+
+    .chairman-info p {
+      color: var(--gray);
+      font-size: 14.5px;
+      margin-bottom: 8px;
+    }
+
+    .tag-row {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      background: var(--light);
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      font-weight: 600;
+      border: 1px solid #bbf7d0;
+    }
+
+    .contact-line {
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--dark);
+    }
+
+    .contact-line a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* Filter buttons */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 10px 0 25px;
+      justify-content: center;
+    }
+
+    .filter-btn {
+      padding: 8px 18px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: white;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13.5px;
+      color: var(--gray);
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .filter-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .section-head {
+      text-align: center;
+      margin: 35px 0 20px;
+    }
+
+    .section-head h2 {
+      color: var(--primary);
+      font-size: 24px;
+    }
+
+    .section-head p {
+      color: var(--gray);
+      font-size: 14px;
+    }
+
+    /* Member grid */
+    .member-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .member-card {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+      padding: 24px;
+      border: 1.5px solid transparent;
+      transition: all 0.25s;
+    }
+
+    .member-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 26px rgba(0, 106, 78, 0.15);
+      border-color: var(--primary);
+    }
+
+    .member-card.hod {
+      border-color: var(--gold);
+      background: linear-gradient(180deg, #fffdf5, white);
+    }
+
+    .member-top {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .member-photo {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 22px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .member-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .member-top h3 {
+      font-size: 16.5px;
+      color: var(--dark);
+      line-height: 1.3;
+    }
+
+    .member-top .desig {
+      font-size: 13px;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 700;
+      background: #dcfce7;
+      color: #166534;
+      margin-top: 4px;
+    }
+
+    .badge.hod {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .badge.chairman {
+      background: var(--gold);
+      color: var(--dark);
+    }
+
+    .member-card .dept {
+      font-size: 13.5px;
+      color: var(--gray);
+      margin-bottom: 6px;
+    }
+
+    .member-card .dept strong {
+      color: var(--dark);
+    }
+
+    .member-card .spec {
+      font-size: 13px;
+      color: var(--gray);
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+
+    .member-card .bio {
+      font-size: 13px;
+      color: var(--gray);
+      border-top: 1px dashed var(--border);
+      padding-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    .member-card .contact {
+      font-size: 12.5px;
+      color: var(--dark);
+    }
+
+    .member-card .contact a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      word-break: break-all;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 50px 20px;
+      color: var(--gray);
+      grid-column: 1/-1;
+      background: white;
+      border-radius: 14px;
+    }
+
+    footer {
+      background: var(--dark);
+      color: #94a3b8;
+      padding: 30px 0;
+      text-align: center;
+      font-size: 14px;
+      margin-top: 30px;
+    }
+
+    footer a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    @media (max-width:640px) {
+      .chairman-card {
+        padding: 22px;
+      }
+
+      .logo-text h1 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="top-bar">
+    <div class="container">
+      <span>📞 +880 2-1234-5678 | 📧 admissions@universityofmhr.edu.bd</span>
+      <div>
+        <a href="index.html">Home</a>
+        <a href="index.html#programs">Programs</a>
+        <a href="university_of_mhr_faculty.html">Faculty</a>
+        <a href="university_of_mhr_admission_form.html">Apply Now</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="university_of_mhr_admin.html">Admin</a>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <div class="container">
+      <div class="logo-section">
+        <div class="logo-icon">M</div>
+        <div class="logo-text">
+          <h1>UNIVERSITY OF MHR</h1>
+          <span>মহর বিশ্ববিদ্যালয় · Faculty Directory</span>
+        </div>
+      </div>
+      <div class="page-title">👥 Our Faculty — Chairman, HODs &amp; Faculty Members</div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="notice" id="dataNotice" style="display:none;">
+      ℹ️ Showing profiles saved via the <strong>Admin Dashboard</strong> in this browser.
+    </div>
+
+    <!-- Chairman -->
+    <div id="chairmanWrap"></div>
+
+    <!-- Faculty filter -->
+    <div class="section-head" style="margin-top:45px;">
+      <h2>Faculty Members by Department</h2>
+      <p>Heads of Department (HOD) are highlighted with a gold border</p>
+    </div>
+    <div class="filter-bar" id="filterBar"></div>
+    <div class="member-grid" id="memberGrid"></div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>© ২০২৬ মহর বিশ্ববিদ্যালয় · University of MHR · All Rights Reserved</p>
+      <p style="margin-top:5px;"><a href="index.html">Home</a> | <a
+          href="university_of_mhr_admission_form.html">Apply</a> | <a href="index.html#contact">Contact</a></p>
+    </div>
+  </footer>
+
+  <script>
+    function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+    const FACULTY_LABELS = {
+      engineering: 'Engineering', business: 'Business', science: 'Science & IT',
+      health: 'Health Sciences', law: 'Law', arts: 'Arts & Social Science'
+    };
+
+    /* Demo profiles — shown only until real profiles are added via the Admin Dashboard.
+       Admin-added profiles (localStorage 'mhr_faculty') replace these entirely. */
+    const DEMO_FACULTY = [
+      {
+        id: 'demo_ch',
+        role: 'chairman',
+        name: 'Syed Mehedi Hassan Rabbi',
+        designation: 'Professor',
+        faculty: 'engineering',
+        department: 'Office of the Chairman',
+        education: 'Ph.D. in Computer Science Engineering',
+        specialization: 'Higher Education Leadership, Power Systems',
+        bio: 'Founder Chairman of University of MHR with over 30 years of academic and administrative experience.',
+        email: 'chairman@universityofmhr.edu.bd',
+        phone: '+880 2-1234-5601',
+
+        profileUrl: 'https://syedmhr.vercel.app/',
+        imageUrl: 'https://media.licdn.com/dms/image/v2/D5603AQEHxgXCQLkYSg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1720019702676?e=1797465600&v=beta&t=HizQzkthHHCf3sWGU-XK4xZlTeBiBw77ozdYpDeg3xA'
+      },
+
+      {
+        id: 'demo_1', role: 'hod', name: 'Dr. Farhana Ahmed', designation: 'Professor',
+        faculty: 'engineering', department: 'Computer Science & Engineering', education: 'Ph.D. in CSE, BUET',
+        specialization: 'Machine Learning, Data Mining',
+        bio: 'Head of CSE with 80+ published papers and 18 years of teaching experience.',
+        email: 'f.ahmed@universityofmhr.edu.bd', phone: '+880 1712-345601'
+      },
+      {
+        id: 'demo_2', role: 'member', name: 'Engr. Tanvir Hasan', designation: 'Assistant Professor',
+        faculty: 'engineering', department: 'Electrical & Electronic Engineering', education: 'M.Sc. in EEE, KUET',
+        specialization: 'Power Electronics, Renewable Energy',
+        bio: '', email: 't.hasan@universityofmhr.edu.bd', phone: '+880 1712-345602'
+      },
+
+      {
+        id: 'demo_3', role: 'hod', name: 'Prof. Dr. Shahidul Islam', designation: 'Professor',
+        faculty: 'business', department: 'Management Studies', education: 'Ph.D. in Management, DU',
+        specialization: 'Organizational Behavior, HRM',
+        bio: 'Dean & Head of the Faculty of Business; former visiting scholar at NUS.',
+        email: 's.islam@universityofmhr.edu.bd', phone: '+880 1712-345603'
+      },
+      {
+        id: 'demo_4', role: 'member', name: 'Ms. Nusrat Jahan', designation: 'Lecturer',
+        faculty: 'business', department: 'Finance & Banking', education: 'MBA in Finance, NSU',
+        specialization: 'Corporate Finance, Investment Analysis',
+        bio: '', email: 'n.jahan@universityofmhr.edu.bd', phone: '+880 1712-345604'
+      },
+
+      {
+        id: 'demo_5', role: 'hod', name: 'Dr. Ayesha Siddika', designation: 'Associate Professor',
+        faculty: 'science', department: 'Computer Science', education: 'Ph.D. in Computer Science, SUST',
+        specialization: 'Cyber Security, Cryptography',
+        bio: 'Head of the Department of Computer Science; leads the university Cyber Security lab.',
+        email: 'a.siddika@universityofmhr.edu.bd', phone: '+880 1712-345605'
+      },
+      {
+        id: 'demo_6', role: 'member', name: 'Mr. Kamrul Hassan', designation: 'Lecturer',
+        faculty: 'science', department: 'Data Science', education: 'M.Sc. in Data Science, IIT, DU',
+        specialization: 'Big Data, Statistical Learning',
+        bio: '', email: 'k.hassan@universityofmhr.edu.bd', phone: '+880 1712-345606'
+      },
+
+      {
+        id: 'demo_7', role: 'hod', name: 'Prof. Dr. Salma Khatun', designation: 'Professor',
+        faculty: 'health', department: 'Pharmacy', education: 'Ph.D. in Pharmaceutical Chemistry, DU',
+        specialization: 'Medicinal Chemistry, Drug Design',
+        bio: 'Head of the Department of Pharmacy with 20 years of research experience.',
+        email: 's.khatun@universityofmhr.edu.bd', phone: '+880 1712-345607'
+      },
+      {
+        id: 'demo_8', role: 'member', name: 'Ms. Fatema Tuj Zohra', designation: 'Senior Lecturer',
+        faculty: 'health', department: 'Nursing', education: 'M.Sc. in Nursing, BSMMU',
+        specialization: 'Community Health Nursing',
+        bio: '', email: 'f.zohra@universityofmhr.edu.bd', phone: '+880 1712-345608'
+      },
+
+      {
+        id: 'demo_9', role: 'hod', name: 'Barrister Md. Rabiul Karim', designation: 'Associate Professor',
+        faculty: 'law', department: 'Law', education: 'LL.M., University of Dhaka',
+        specialization: 'Constitutional Law, Corporate Law',
+        bio: 'Head of the Department of Law; practicing advocate of the Supreme Court of Bangladesh.',
+        email: 'r.karim@universityofmhr.edu.bd', phone: '+880 1712-345609'
+      },
+      {
+        id: 'demo_10', role: 'member', name: 'Ms. Sharmin Akter', designation: 'Lecturer',
+        faculty: 'law', department: 'Law', education: 'LL.B. (Hons), LL.M., CU',
+        specialization: 'Criminal Law, Human Rights Law',
+        bio: '', email: 'sh.akter@universityofmhr.edu.bd', phone: '+880 1712-345610'
+      },
+
+      {
+        id: 'demo_11', role: 'hod', name: 'Dr. Mahbub Morshed', designation: 'Professor',
+        faculty: 'arts', department: 'English', education: 'Ph.D. in English Literature, RU',
+        specialization: 'Postcolonial Literature, Applied Linguistics',
+        bio: 'Head of the Department of English; editor of the university journal.',
+        email: 'm.morshed@universityofmhr.edu.bd', phone: '+880 1712-345611'
+      },
+      {
+        id: 'demo_12', role: 'member', name: 'Ms. Roksana Parvin', designation: 'Assistant Professor',
+        faculty: 'arts', department: 'Economics', education: 'MSS in Economics, DU',
+        specialization: 'Development Economics, Econometrics',
+        bio: '', email: 'r.parvin@universityofmhr.edu.bd', phone: '+880 1712-345612'
+      }
+    ];
+
+    function loadFaculty() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('mhr_faculty') || '[]');
+        return saved.length ? { list: saved, isLive: true } : { list: DEMO_FACULTY, isLive: false };
+      } catch (e) { return { list: DEMO_FACULTY, isLive: false }; }
+    }
+
+    function initials(name) {
+      return name.split(/\s+/).filter(w => w.length > 1 || /^[A-Z]/.test(w)).map(w => w[0]).slice(0, 2).join('').toUpperCase();
+    }
+
+    let activeFilter = 'all';
+
+    function safeUrl(u) {
+      const s = String(u || '').trim();
+      return /^https?:\/\//i.test(s) ? s : '';
+    }
+
+    function renderChairman(chairman) {
+      const wrap = document.getElementById('chairmanWrap');
+      if (!chairman) { wrap.innerHTML = ''; return; }
+      const photoUrl = chairman.imageUrl || chairman.photo;
+      const profileLink = safeUrl(chairman.profileUrl);
+      wrap.innerHTML = `
+      <div class="section-head" style="margin-top:30px;"><h2>🏛️ Office of the Chairman</h2></div>
+      <div class="chairman-card">
+        ${photoUrl ? `<img src="${esc(photoUrl)}" alt="${esc(chairman.name)}" class="faculty-photo">` : '<div class="chairman-photo">👤</div>'}
+        <div class="chairman-info">
+          <h2>${esc(chairman.name)}</h2>
+          <div class="desig">${esc(chairman.designation)} · Chairman, University of MHR</div>
+          ${chairman.bio ? `<p>${esc(chairman.bio)}</p>` : ''}
+          <div class="tag-row">
+            ${chairman.education ? `<span class="tag">🎓 ${esc(chairman.education)}</span>` : ''}
+            ${chairman.specialization ? `<span class="tag">🔬 ${esc(chairman.specialization)}</span>` : ''}
+            ${chairman.department ? `<span class="tag">🏢 ${esc(chairman.department)}</span>` : ''}
+          </div>
+          <div class="contact-line">
+            ✉️ <a href="mailto:${esc(chairman.email)}">${esc(chairman.email)}</a>
+            ${chairman.phone ? ` &nbsp;|&nbsp; 📞 ${esc(chairman.phone)}` : ''}
+            ${profileLink ? ` &nbsp;|&nbsp; 🌐 <a href="${esc(profileLink)}" target="_blank" rel="noopener noreferrer">Personal Website</a>` : ''}
+          </div>
+        </div>
+      </div>`;
+    }
+
+    function renderFilters() {
+      const bar = document.getElementById('filterBar');
+      const keys = ['all', ...Object.keys(FACULTY_LABELS)];
+      bar.innerHTML = keys.map(k =>
+        `<button class="filter-btn ${k === activeFilter ? 'active' : ''}" onclick="setFilter('${k}')">${k === 'all' ? 'All Faculties' : FACULTY_LABELS[k]}</button>`
+      ).join('');
+    }
+
+    function setFilter(k) { activeFilter = k; renderFilters(); renderMembers(); }
+
+    function renderMembers() {
+      const { list } = loadFaculty();
+      const grid = document.getElementById('memberGrid');
+      const members = list.filter(m => m.role !== 'chairman' && (activeFilter === 'all' || m.faculty === activeFilter));
+      if (!members.length) {
+        grid.innerHTML = '<div class="empty">No faculty members in this faculty yet. Profiles added via the Admin Dashboard will appear here.</div>';
+        return;
+      }
+      /* HOD first, then alphabetical */
+      members.sort((a, b) => (a.role === 'hod' ? -1 : 0) - (b.role === 'hod' ? -1 : 0) || a.name.localeCompare(b.name));
+      grid.innerHTML = members.map(m => {
+        const photoUrl = m.imageUrl || m.photo;
+        const profileLink = safeUrl(m.profileUrl);
+        return `
+      <div class="member-card ${m.role === 'hod' ? 'hod' : ''}">
+        <div class="member-top">
+          <div class="member-photo">${photoUrl ? `<img src="${esc(photoUrl)}" alt="${esc(m.name)}">` : initials(m.name || '?')}</div>
+          <div>
+            <h3>${esc(m.name)}</h3>
+            <div class="desig">${esc(m.designation)}</div>
+            ${m.role === 'hod' ? '<span class="badge hod">🎓 Head of Department</span>' : '<span class="badge">Faculty Member</span>'}
+          </div>
+        </div>
+        <div class="dept"><strong>${m.department || ''}</strong> · Faculty of ${esc(FACULTY_LABELS[m.faculty] || m.faculty || '')}</div>
+        ${m.specialization ? `<div class="spec">🔬 ${esc(m.specialization)}</div>` : ''}
+        ${m.bio ? `<div class="bio">${esc(m.bio)}</div>` : ''}
+        <div class="contact">
+          ${m.education ? `🎓 ${esc(m.education)}<br>` : ''}
+          ${m.email ? `✉️ <a href="mailto:${esc(m.email)}">${esc(m.email)}</a><br>` : ''}
+          ${m.phone ? `📞 ${esc(m.phone)}${profileLink ? '<br>' : ''}` : ''}
+          ${profileLink ? `🌐 <a href="${esc(profileLink)}" target="_blank" rel="noopener noreferrer">Personal Website</a>` : ''}
+        </div>
+      </div>`;
+      }).join('');
+    }
+
+    function init() {
+      const { list, isLive } = loadFaculty();
+      if (isLive) document.getElementById('dataNotice').style.display = 'block';
+      renderChairman(list.find(m => m.role === 'chairman'));
+      renderFilters();
+      renderMembers();
+    }
+    init();
+  </script>
+
+</body>
