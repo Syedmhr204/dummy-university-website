@@ -3,157 +3,128 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>University of MHR - মহর বিশ্ববিদ্যালয়</title>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script>
-  /* Same EmailJS setup as admission-form.html -- see that file for full instructions.
-     Paste your own EmailJS keys here too (this page's inquiry form is separate). */
-  const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
-  const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
-  const EMAILJS_INQUIRY_TEMPLATE_ID = 'YOUR_INQUIRY_TEMPLATE_ID';
-
-  if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
-    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-  }
-</script>
+<title>University of MHR — মহর বিশ্ববিদ্যালয়</title>
+<meta name="description" content="University of MHR: six faculties, 40+ programs, online admission. Apply now for the 2026 session.">
 <style>
   :root {
-    --primary: #006a4e;
-    --secondary: #f42a41;
-    --gold: #ffcd00;
-    --accent: #004d40;
-    --light: #f0fdf4;
-    --dark: #0f172a;
-    --gray: #64748b;
+    --primary:#006a4e; --secondary:#f42a41; --gold:#ffcd00;
+    --accent:#004d40; --light:#f0fdf4; --dark:#0f172a; --gray:#64748b; --border:#cbd5e1;
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--light); color: var(--dark); line-height: 1.6; }
-  .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:70px}
+  body{font-family:'Segoe UI',system-ui,sans-serif;color:var(--dark);line-height:1.6;background:#fff}
+  .container{max-width:1160px;margin:0 auto;padding:0 20px}
+  a{color:inherit}
 
-  /* Top Bar */
-  .top-bar { background: var(--accent); color: white; padding: 8px 0; font-size: 13px; }
-  .top-bar .container { display: flex; justify-content: space-between; align-items: center; }
-  .top-bar a { color: #a7f3d0; text-decoration: none; margin-left: 20px; transition: color 0.3s; }
-  .top-bar a:hover { color: var(--gold); }
+  .top-bar{background:var(--accent);color:#fff;padding:8px 0;font-size:13px}
+  .top-bar .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+  .top-bar a{color:#a7f3d0;text-decoration:none;margin-left:16px}
+  .top-bar a:hover{color:var(--gold)}
 
-  /* Header */
-  header { background: var(--primary); color: white; padding: 15px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-  .header-flex { display: flex; justify-content: space-between; align-items: center; }
-  .logo { display: flex; align-items: center; gap: 12px; }
-  .logo-icon { width: 55px; height: 55px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: bold; color: var(--primary); }
-  .logo-text h1 { margin: 0; font-size: 22px; letter-spacing: 1px; }
-  .logo-text span { font-size: 12px; opacity: 0.9; }
-  nav ul { display: flex; list-style: none; gap: 28px; margin: 0; padding: 0; }
-  nav a { color: white; text-decoration: none; font-weight: 500; transition: color 0.3s; }
-  nav a:hover { color: var(--gold); }
-  .apply-btn { background: var(--secondary); color: white; padding: 10px 24px; border-radius: 6px; font-weight: bold; text-decoration: none; transition: background 0.3s; }
-  .apply-btn:hover { background: #dc2626; }
+  nav.main{position:sticky;top:0;z-index:50;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+  nav.main .container{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+  .logo-icon{width:42px;height:42px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:var(--primary)}
+  .brand b{display:block;color:var(--primary);font-size:17px;letter-spacing:.5px;line-height:1.1}
+  .brand small{color:var(--gray);font-size:12px}
+  .links{display:flex;gap:6px;align-items:center}
+  .links a{text-decoration:none;padding:8px 14px;border-radius:8px;font-weight:600;font-size:14.5px;color:var(--dark)}
+  .links a:hover{background:var(--light);color:var(--primary)}
+  .links a.cta{background:var(--secondary);color:#fff}
+  .links a.cta:hover{background:#d91f35}
+  .burger{display:none;background:none;border:1.5px solid var(--border);border-radius:8px;padding:6px 12px;font-size:20px;cursor:pointer}
 
-  /* Hero */
-  .hero { background: linear-gradient(135deg, var(--primary) 0%, #004d40 50%, #1b5e20 100%); color: white; padding: 100px 0; text-align: center; }
-  .hero h2 { font-size: 48px; margin: 0 0 20px; }
-  .hero p { font-size: 20px; opacity: 0.9; max-width: 700px; margin: 0 auto 40px; }
-  .hero-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
-  .btn { padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: transform 0.2s, box-shadow 0.2s; display: inline-block; }
-  .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-  .btn-primary { background: var(--gold); color: var(--dark); }
-  .btn-outline { border: 2px solid white; color: white; }
+  .hero{background-color:var(--accent);background-image:linear-gradient(115deg,rgba(0,48,38,.88) 0%,rgba(0,77,64,.76) 55%,rgba(15,23,42,.66) 100%),url('https://images.unsplash.com/photo-1721322567314-9700f5aea991?auto=format&fit=crop&w=1920&q=80');background-size:cover;background-position:center;background-repeat:no-repeat;color:#fff;padding:100px 0 120px;position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;right:-140px;top:-140px;width:440px;height:440px;border-radius:50%;background:radial-gradient(circle,rgba(244,42,65,.28),transparent 70%);pointer-events:none}
+  .hero::before{content:"";position:absolute;right:40px;bottom:-120px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(255,205,0,.18),transparent 70%);z-index:1;pointer-events:none}
+  .hero .container{position:relative;z-index:2}
+  .eyebrow{display:inline-block;background:rgba(255,255,255,.15);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.22);padding:5px 14px;border-radius:20px;font-size:13px;font-weight:600;margin-bottom:18px}
+  .hero h1{font-size:clamp(32px,5.5vw,56px);line-height:1.12;max-width:720px;margin-bottom:18px;text-shadow:0 2px 16px rgba(0,0,0,.28)}
+  .hero h1 em{font-style:normal;color:var(--gold)}
+  .hero p{font-size:18px;max-width:560px;opacity:.94;margin-bottom:28px;text-shadow:0 1px 10px rgba(0,0,0,.25)}
+  .btn{display:inline-block;padding:13px 26px;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none;border:2px solid transparent;cursor:pointer;font-family:inherit}
+  .btn-gold{background:var(--gold);color:var(--dark)}
+  .btn-gold:hover{filter:brightness(.95)}
+  .btn-ghost{border-color:rgba(255,255,255,.6);color:#fff;margin-left:10px}
+  .btn-ghost:hover{background:rgba(255,255,255,.12)}
+  .btn-primary{background:var(--primary);color:#fff}
+  .btn-primary:hover{background:var(--accent)}
 
-  /* Stats */
-  .stats { background: white; padding: 60px 0; margin-top: -40px; position: relative; z-index: 10; }
-  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; text-align: center; }
-  .stat-item h3 { font-size: 36px; color: var(--primary); margin: 0; }
-  .stat-item p { color: var(--gray); margin: 5px 0 0; font-size: 15px; }
+  .stats{margin-top:-55px;position:relative;z-index:5}
+  .stats .grid{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-radius:16px;box-shadow:0 12px 36px rgba(15,23,42,.12);overflow:hidden}
+  .stat{padding:26px 20px;text-align:center;border-right:1px solid #e2e8f0}
+  .stat:last-child{border:none}
+  .stat .n{font-size:34px;font-weight:800;color:var(--primary)}
+  .stat .l{font-size:13px;color:var(--gray);font-weight:600;text-transform:uppercase;letter-spacing:.6px}
 
-  /* Sections */
-  section { padding: 80px 0; }
-  .section-title { text-align: center; margin-bottom: 50px; }
-  .section-title h2 { font-size: 36px; color: var(--primary); margin: 0 0 10px; }
-  .section-title p { color: var(--gray); font-size: 18px; }
+  section{padding:80px 0}
+  .sec-head{text-align:center;margin-bottom:42px}
+  .sec-head h2{font-size:clamp(26px,3.5vw,36px);color:var(--primary)}
+  .sec-head p{color:var(--gray);max-width:560px;margin:8px auto 0}
+  .sec-head::after{content:"";display:block;width:64px;height:4px;background:var(--gold);border-radius:4px;margin:16px auto 0}
+  .alt{background:var(--light)}
 
-  /* Programs */
-  .programs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-  .program-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s; }
-  .program-card:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
-  .program-header { padding: 20px; color: white; }
-  .program-header.eng { background: linear-gradient(135deg, #b71c1c, #7f0000); }
-  .program-header.biz { background: linear-gradient(135deg, #1565c0, #0d47a1); }
-  .program-header.cs { background: linear-gradient(135deg, #6a1b9a, #4a148c); }
-  .program-header.med { background: linear-gradient(135deg, #2e7d32, #1b5e20); }
-  .program-header.law { background: linear-gradient(135deg, #e65100, #bf360c); }
-  .program-header.art { background: linear-gradient(135deg, #c62828, #880e4f); }
-  .program-header h3 { margin: 0 0 5px; font-size: 20px; }
-  .program-header span { font-size: 13px; opacity: 0.9; }
-  .program-body { padding: 20px; }
-  .program-body p { color: var(--gray); font-size: 14px; line-height: 1.6; margin: 0 0 15px; }
-  .program-meta { display: flex; justify-content: space-between; font-size: 13px; color: var(--gray); border-top: 1px solid #e2e8f0; padding-top: 15px; }
-  .program-meta strong { color: var(--dark); }
+  .about{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center}
+  .about p{color:#334155;margin-bottom:14px}
+  .values{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .value{background:#fff;border-radius:14px;padding:20px;border-left:4px solid var(--gold);box-shadow:0 4px 14px rgba(0,0,0,.05)}
+  .value h4{color:var(--primary);margin-bottom:4px}
+  .value p{font-size:13.5px;color:var(--gray);margin:0}
 
-  /* Fees Table */
-  .fees-table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-  .fees-table th { background: var(--primary); color: white; padding: 18px; text-align: left; font-weight: 600; }
-  .fees-table td { padding: 16px 18px; border-bottom: 1px solid #e2e8f0; }
-  .fees-table tr:hover { background: #f8fafc; }
-  .fees-table .price { font-weight: bold; color: var(--primary); font-size: 18px; }
+  .fac-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:26px}
+  .fac-tab{padding:9px 18px;border-radius:22px;border:1.5px solid var(--border);background:#fff;font-weight:600;font-size:14px;color:var(--gray);cursor:pointer;font-family:inherit}
+  .fac-tab.active,.fac-tab:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .prog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+  .prog{background:#fff;border-radius:12px;padding:18px 20px;border:1.5px solid #e2e8f0;display:flex;flex-direction:column;gap:6px;transition:.2s}
+  .prog:hover{border-color:var(--primary);transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,106,78,.12)}
+  .prog b{font-size:15px}
+  .prog span{font-size:12.5px;color:var(--gray)}
+  .prog a{margin-top:auto;font-size:13px;font-weight:700;color:var(--secondary);text-decoration:none}
 
-  /* Scholarships */
-  .scholarship-list { display: flex; flex-direction: column; gap: 20px; }
-  .scholarship-item { background: white; border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); display: flex; gap: 25px; align-items: flex-start; transition: transform 0.3s; }
-  .scholarship-item:hover { transform: translateX(5px); }
-  .scholarship-badge { min-width: 80px; height: 80px; background: linear-gradient(135deg, var(--gold), #f59e0b); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--dark); }
-  .scholarship-badge .amount { font-size: 20px; font-weight: bold; }
-  .scholarship-badge .label { font-size: 10px; text-transform: uppercase; }
-  .scholarship-content h3 { margin: 0 0 8px; color: var(--primary); }
-  .scholarship-content p { color: var(--gray); margin: 0 0 12px; line-height: 1.6; }
-  .scholarship-tags { display: flex; gap: 8px; flex-wrap: wrap; }
-  .tag { background: #dcfce7; color: var(--primary); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-  .tag.gold { background: #fef3c7; color: #92400e; }
-  .tag.full { background: #d1fae5; color: var(--accent); }
+  .timeline{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;position:relative}
+  .step{background:#fff;border-radius:14px;padding:22px 16px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.06);border-top:4px solid var(--primary)}
+  .step .d{font-size:12px;font-weight:700;color:var(--secondary);text-transform:uppercase;letter-spacing:.5px}
+  .step h4{margin:6px 0 4px;color:var(--primary)}
+  .step p{font-size:13px;color:var(--gray)}
+  .center{text-align:center;margin-top:32px}
 
-  /* Admissions */
-  .admission-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; }
-  .step { background: white; border-radius: 12px; padding: 30px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.08); position: relative; transition: transform 0.3s; }
-  .step:hover { transform: translateY(-5px); }
-  .step-num { width: 50px; height: 50px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; margin: 0 auto 15px; }
-  .step h3 { margin: 0 0 10px; color: var(--primary); font-size: 18px; }
-  .step p { color: var(--gray); font-size: 14px; line-height: 1.6; }
+  .campus-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .campus{background:linear-gradient(160deg,var(--primary),var(--accent));color:#fff;border-radius:16px;padding:28px}
+  .campus h3{margin-bottom:6px}
+  .campus p{font-size:14px;opacity:.88}
 
-  /* Contact */
-  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-  .contact-info h3 { color: var(--primary); margin: 0 0 20px; font-size: 22px; }
-  .contact-item { display: flex; gap: 15px; margin-bottom: 20px; align-items: flex-start; }
-  .contact-icon { width: 40px; height: 40px; background: #dcfce7; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 18px; flex-shrink: 0; }
-  .contact-item div strong { display: block; margin-bottom: 3px; color: var(--dark); }
-  .contact-item div span { color: var(--gray); font-size: 14px; }
-  .contact-form { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-  .form-group { margin-bottom: 20px; }
-  .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--dark); }
-  .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; font-family: inherit; transition: border-color 0.3s; }
-  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--primary); }
-  .form-group textarea { min-height: 100px; resize: vertical; }
-  .submit-btn { background: var(--primary); color: white; padding: 14px 32px; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; width: 100%; transition: background 0.3s; }
-  .submit-btn:hover { background: var(--accent); }
+  .contact-wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:36px}
+  .info-card,.form-card{background:#fff;border-radius:16px;padding:30px;box-shadow:0 8px 28px rgba(15,23,42,.08)}
+  .info-card h3,.form-card h3{color:var(--primary);margin-bottom:14px}
+  .info-row{display:flex;gap:12px;margin-bottom:14px;color:#334155}
+  .info-row .ic{font-size:20px}
+  .field{margin-bottom:14px}
+  .field label{display:block;font-weight:600;font-size:14px;margin-bottom:5px}
+  .field input,.field select,.field textarea{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:15px;font-family:inherit}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--primary)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .contact-wrap>*,.about>*{min-width:0}
+  .msg{margin-top:12px;font-weight:600;font-size:14px;min-height:20px}
 
-  /* Footer */
-  footer { background: var(--dark); color: #94a3b8; padding: 60px 0 20px; }
-  .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 40px; }
-  .footer-col h4 { color: white; margin: 0 0 20px; font-size: 18px; }
-  .footer-col ul { list-style: none; padding: 0; margin: 0; }
-  .footer-col li { margin-bottom: 10px; }
-  .footer-col a { color: #94a3b8; text-decoration: none; transition: color 0.3s; }
-  .footer-col a:hover { color: var(--gold); }
-  .footer-bottom { border-top: 1px solid #334155; padding-top: 20px; text-align: center; font-size: 14px; }
+  footer{background:var(--dark);color:#94a3b8;padding:46px 0 24px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:30px;margin-bottom:28px}
+  footer h5{color:#fff;margin-bottom:10px}
+  footer a{display:block;color:#94a3b8;text-decoration:none;padding:3px 0;font-size:14px}
+  footer a:hover{color:var(--gold)}
+  .copy{border-top:1px solid #1e293b;padding-top:18px;text-align:center;font-size:13px}
 
-  /* Responsive */
-  @media (max-width: 768px) {
-    .programs-grid, .stats-grid, .admission-steps { grid-template-columns: 1fr; }
-    .contact-grid, .footer-grid { grid-template-columns: 1fr; }
-    .hero h2 { font-size: 32px; }
-    .hero p { font-size: 16px; }
-    nav ul { display: none; }
-    .top-bar .container { flex-direction: column; gap: 5px; text-align: center; }
-    .scholarship-item { flex-direction: column; align-items: center; text-align: center; }
+  @media (max-width:900px){
+    .about,.contact-wrap,.foot-grid,.campus-grid{grid-template-columns:1fr}
+    .timeline{grid-template-columns:1fr 1fr}
+    .stats .grid{grid-template-columns:1fr 1fr}
+    .stat:nth-child(2){border-right:none}
+    .stat:nth-child(-n+2){border-bottom:1px solid #e2e8f0}
+    .burger{display:block}
+    .links{display:none;position:absolute;top:64px;left:0;right:0;background:#fff;flex-direction:column;align-items:stretch;padding:12px 20px;box-shadow:0 10px 20px rgba(0,0,0,.1)}
+    .links.open{display:flex}
+    .btn-ghost{margin:10px 0 0}
   }
+  @media (max-width:520px){.timeline,.values,.row2{grid-template-columns:1fr}.hero::after{display:none}}
 </style>
 </head>
 <body>
@@ -161,669 +132,183 @@
 <div class="top-bar">
   <div class="container">
     <span>📞 +880 2-1234-5678 | 📧 admissions@universityofmhr.edu.bd</span>
-    <div>
-      <a href="#">Student Portal</a>
-      <a href="#">Faculty Login</a>
-      <a href="university_of_mhr_admin.html">Admin Login</a>
-      <a href="#">Library</a>
-      <a href="#">Career Services</a>
+    <div><a href="university_of_mhr_faculty.html">Faculty Directory</a><a href="university_of_mhr_admin.html">Admin Login</a></div>
+  </div>
+</div>
+
+<nav class="main">
+  <div class="container">
+    <a class="brand" href="index.html">
+      <div class="logo-icon">M</div>
+      <div><b>UNIVERSITY OF MHR</b><small>মহর বিশ্ববিদ্যালয়</small></div>
+    </a>
+    <button class="burger" aria-label="Menu" onclick="document.getElementById('links').classList.toggle('open')">☰</button>
+    <div class="links" id="links">
+      <a href="#about">About</a>
+      <a href="#programs">Programs</a>
+      <a href="#admission">Admission</a>
+      <a href="#campuses">Campuses</a>
+      <a href="university_of_mhr_faculty.html">Faculty</a>
+      <a href="#contact">Contact</a>
+      <a class="cta" href="university_of_mhr_admission_form.html">Apply Now</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <span class="eyebrow">🎓 Admissions open · 2026 Session</span>
+    <h1>Learn here. <em>Lead</em> anywhere.</h1>
+    <p>Six faculties, over forty programs and a scholarship for every serious student. Apply online in about 15 minutes.</p>
+    <a class="btn btn-gold" href="university_of_mhr_admission_form.html">Start Application →</a>
+    <a class="btn btn-ghost" href="#programs">Browse Programs</a>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="container">
+    <div class="grid">
+      <div class="stat"><div class="n">6</div><div class="l">Faculties</div></div>
+      <div class="stat"><div class="n">40+</div><div class="l">Programs</div></div>
+      <div class="stat"><div class="n" id="facCount">12</div><div class="l">Faculty Profiles</div></div>
+      <div class="stat"><div class="n">3</div><div class="l">Campuses</div></div>
     </div>
   </div>
 </div>
 
-<header>
-  <div class="container header-flex">
-    <div class="logo">
-      <div class="logo-icon">M</div>
-      <div class="logo-text">
-        <h1>UNIVERSITY OF MHR</h1>
-        <span>মহর বিশ্ববিদ্যালয় · Since 1992</span>
-      </div>
+<section id="about">
+  <div class="container about">
+    <div>
+      <h2 style="color:var(--primary);font-size:34px;margin-bottom:14px">A modern university with deep roots</h2>
+      <p>University of MHR was founded to make quality higher education reachable for students across Bangladesh. We pair rigorous academics with industry-linked projects, research labs and a campus culture built on respect and curiosity.</p>
+      <p>From engineering and business to health sciences and law, every program is taught by qualified faculty led by our Chairman and Heads of Department.</p>
+      <a class="btn btn-primary" href="university_of_mhr_faculty.html">Meet our Faculty</a>
     </div>
-    <nav>
-      <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#programs">Programs</a></li>
-        <li><a href="#admissions">Admissions</a></li>
-        <li><a href="#fees">Tuition</a></li>
-        <li><a href="#scholarships">Scholarships</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-    <a href="university_of_mhr_admission_form.html" class="apply-btn">Apply Now</a>
-  </div>
-</header>
-
-<section class="hero">
-  <div class="container">
-    <h2>Build Your Future at University of MHR</h2>
-    <p>Leading higher education in Bangladesh with world-class faculty, modern campuses, and industry-ready programs. Join 25,000+ students across 6 faculties.</p>
-    <div class="hero-buttons">
-      <a href="university_of_mhr_admission_form.html" class="btn btn-primary">ভর্তি আবেদন (Apply)</a>
-      <a href="#programs" class="btn btn-outline">Explore Programs</a>
+    <div class="values">
+      <div class="value"><h4>🔬 Research-led</h4><p>Labs and undergraduate research from year two.</p></div>
+      <div class="value"><h4>🤝 Industry-linked</h4><p>Internships and live projects with partners.</p></div>
+      <div class="value"><h4>🏅 Scholarships</h4><p>Merit, need and quota-based waivers.</p></div>
+      <div class="value"><h4>🌍 Inclusive</h4><p>Freedom-fighter, tribal and disability quotas.</p></div>
     </div>
   </div>
 </section>
 
-<section class="stats">
+<section id="programs" class="alt">
   <div class="container">
-    <div class="stats-grid">
-      <div class="stat-item">
-        <h3>25,000+</h3>
-        <p>Students Enrolled</p>
-      </div>
-      <div class="stat-item">
-        <h3>150+</h3>
-        <p>Degree Programs</p>
-      </div>
-      <div class="stat-item">
-        <h3>92%</h3>
-        <p>Employment Rate</p>
-      </div>
-      <div class="stat-item">
-        <h3>3</h3>
-        <p>Campuses</p>
-      </div>
-    </div>
+    <div class="sec-head"><h2>Faculties &amp; Programs</h2><p>Pick a faculty to see what you can study.</p></div>
+    <div class="fac-tabs" id="facTabs"></div>
+    <div class="prog-grid" id="progGrid"></div>
   </div>
 </section>
 
-<section id="programs">
+<section id="admission">
   <div class="container">
-    <div class="section-title">
-      <h2>Academic Programs</h2>
-      <p>Undergraduate, Graduate, and Professional degrees across six faculties</p>
+    <div class="sec-head"><h2>Admission Timeline</h2><p>Key dates for the 2026 session.</p></div>
+    <div class="timeline">
+      <div class="step"><div class="d">Now</div><h4>Apply online</h4><p>Fill the 5-step form and pay the fee.</p></div>
+      <div class="step"><div class="d">From Sep 20</div><h4>Admit card</h4><p>Download using your Application ID.</p></div>
+      <div class="step"><div class="d">Sep 25–30</div><h4>Admission test</h4><p>On campus or as scheduled.</p></div>
+      <div class="step"><div class="d">Oct 5</div><h4>Results</h4><p>Published on this website.</p></div>
+      <div class="step"><div class="d">Oct 15</div><h4>Classes begin</h4><p>Complete admission by Oct 12.</p></div>
     </div>
-    <div class="programs-grid">
-      <div class="program-card">
-        <div class="program-header eng">
-          <h3>🔧 Faculty of Engineering</h3>
-          <span>B.Sc., M.Sc., M.Engg. Programs</span>
-        </div>
-        <div class="program-body">
-          <p>CSE, EEE, Civil, Mechanical, Textile, and Architecture. Approved by Bangladesh Technical Education Board (BTEB) and IEB.</p>
-          <div class="program-meta">
-            <span><strong>160-170</strong> Credits</span>
-            <span><strong>4 Years</strong></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="program-card">
-        <div class="program-header biz">
-          <h3>💼 Faculty of Business</h3>
-          <span>BBA, MBA, EMBA Programs</span>
-        </div>
-        <div class="program-body">
-          <p>Accounting, Finance, Marketing, HRM, and International Business. Affiliated with National University & UGC approved.</p>
-          <div class="program-meta">
-            <span><strong>127-66</strong> Credits</span>
-            <span><strong>4-2 Years</strong></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="program-card">
-        <div class="program-header cs">
-          <h3>💻 Faculty of Science & IT</h3>
-          <span>B.Sc., M.Sc., MIT Programs</span>
-        </div>
-        <div class="program-body">
-          <p>Computer Science, Software Engineering, Data Science, Cyber Security, and Information Technology.</p>
-          <div class="program-meta">
-            <span><strong>160</strong> Credits</span>
-            <span><strong>4 Years</strong></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="program-card">
-        <div class="program-header med">
-          <h3>🩺 Faculty of Health Sciences</h3>
-          <span>B.Sc. Nursing, MPH, Pharmacy</span>
-        </div>
-        <div class="program-body">
-          <p>Nursing, Public Health, Pharmacy, and Medical Technology. Approved by Bangladesh Nursing Council & Pharmacy Council.</p>
-          <div class="program-meta">
-            <span><strong>160-180</strong> Credits</span>
-            <span><strong>4-5 Years</strong></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="program-card">
-        <div class="program-header law">
-          <h3>⚖️ Faculty of Law</h3>
-          <span>LL.B., LL.M. Programs</span>
-        </div>
-        <div class="program-body">
-          <p>Constitutional Law, Corporate Law, International Law, and Criminal Law. Approved by Bangladesh Bar Council.</p>
-          <div class="program-meta">
-            <span><strong>140-60</strong> Credits</span>
-            <span><strong>4-1 Years</strong></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="program-card">
-        <div class="program-header art">
-          <h3>🎨 Faculty of Arts & Social Science</h3>
-          <span>BA, MA, BSS, MSS Programs</span>
-        </div>
-        <div class="program-body">
-          <p>English, Bangla, Economics, Sociology, Political Science, Islamic Studies, and Journalism.</p>
-          <div class="program-meta">
-            <span><strong>120-60</strong> Credits</span>
-            <span><strong>4-1 Years</strong></span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div class="center"><a class="btn btn-primary" href="university_of_mhr_admission_form.html">Apply Now →</a></div>
   </div>
 </section>
 
-<section id="fees" style="background:#f1f5f9;">
+<section id="campuses" class="alt">
   <div class="container">
-    <div class="section-title">
-      <h2>Tuition & Fees (2026-2027)</h2>
-      <p>Affordable education with flexible payment options. All amounts in Bangladeshi Taka (৳).</p>
-    </div>
-    <table class="fees-table">
-      <thead>
-        <tr>
-          <th>Program Level</th>
-          <th>Per Credit</th>
-          <th>Semester Fee</th>
-          <th>Total Program Cost</th>
-          <th>Additional Fees</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>B.Sc. in CSE / EEE</strong><br><small>Engineering (4 Years)</small></td>
-          <td class="price">৳ 3,500</td>
-          <td>৳ 52,500</td>
-          <td class="price">৳ 5,60,000</td>
-          <td>Lab: ৳ 3,000/sem<br>Development: ৳ 5,000/yr</td>
-        </tr>
-        <tr>
-          <td><strong>B.Sc. in Civil / Mechanical</strong><br><small>Engineering (4 Years)</small></td>
-          <td class="price">৳ 3,200</td>
-          <td>৳ 48,000</td>
-          <td class="price">৳ 5,12,000</td>
-          <td>Lab: ৳ 3,000/sem<br>Development: ৳ 5,000/yr</td>
-        </tr>
-        <tr>
-          <td><strong>BBA (Hons)</strong><br><small>Business (4 Years)</small></td>
-          <td class="price">৳ 2,800</td>
-          <td>৳ 42,000</td>
-          <td class="price">৳ 3,55,600</td>
-          <td>Development: ৳ 5,000/yr<br>Internship: ৳ 10,000</td>
-        </tr>
-        <tr>
-          <td><strong>LL.B. (Hons)</strong><br><small>Law (4 Years)</small></td>
-          <td class="price">৳ 2,500</td>
-          <td>৳ 37,500</td>
-          <td class="price">৳ 3,50,000</td>
-          <td>Moot Court: ৳ 2,000/sem<br>Bar Prep: ৳ 15,000</td>
-        </tr>
-        <tr>
-          <td><strong>B.Sc. in Nursing</strong><br><small>Health Sciences (4 Years)</small></td>
-          <td class="price">৳ 3,000</td>
-          <td>৳ 45,000</td>
-          <td class="price">৳ 4,80,000</td>
-          <td>Clinical: ৳ 5,000/sem<br>Uniform: ৳ 3,000</td>
-        </tr>
-        <tr>
-          <td><strong>BA / BSS (Hons)</strong><br><small>Arts & Social Science (4 Years)</small></td>
-          <td class="price">৳ 1,800</td>
-          <td>৳ 27,000</td>
-          <td class="price">৳ 2,16,000</td>
-          <td>Development: ৳ 3,000/yr</td>
-        </tr>
-        <tr>
-          <td><strong>MBA (Regular)</strong><br><small>Business (2 Years)</small></td>
-          <td class="price">৳ 4,500</td>
-          <td>৳ 67,500</td>
-          <td class="price">৳ 2,70,000</td>
-          <td>Thesis: ৳ 15,000</td>
-        </tr>
-        <tr>
-          <td><strong>MBA (Executive)</strong><br><small>Business (1.5 Years)</small></td>
-          <td class="price">৳ 5,500</td>
-          <td>৳ 82,500</td>
-          <td class="price">৳ 2,47,500</td>
-          <td>Evening/Weekend Classes</td>
-        </tr>
-        <tr>
-          <td><strong>M.Sc. in CSE / EEE</strong><br><small>Engineering (1.5-2 Years)</small></td>
-          <td class="price">৳ 4,000</td>
-          <td>৳ 60,000</td>
-          <td class="price">৳ 2,40,000</td>
-          <td>Research: ৳ 10,000<br>Thesis: ৳ 20,000</td>
-        </tr>
-      </tbody>
-    </table>
-    <p style="text-align:center; color:var(--gray); margin-top:20px;"><em>* Admission Fee: ৳ 15,000 (one-time) | Registration: ৳ 2,000/sem | Exam: ৳ 1,500/sem | Library: ৳ 500/sem</em></p>
-    <p style="text-align:center; color:var(--gray);"><em>* Waiver available for female students, tribal students, and freedom fighters' children</em></p>
-  </div>
-</section>
-
-<section id="scholarships">
-  <div class="container">
-    <div class="section-title">
-      <h2>Scholarships & Financial Aid</h2>
-      <p>Over ৳ 5 Crore awarded annually. Merit and need-based scholarships available.</p>
-    </div>
-    <div class="scholarship-list">
-      <div class="scholarship-item">
-        <div class="scholarship-badge">
-          <span class="amount">100%</span>
-          <span class="label">Tuition</span>
-        </div>
-        <div class="scholarship-content">
-          <h3>🌟 Chancellor's Gold Scholarship</h3>
-          <p>Full tuition waiver for students with GPA 5.00 (SSC/HSC) or Golden GPA. Includes free hostel accommodation and monthly stipend of ৳ 5,000.</p>
-          <div class="scholarship-tags">
-            <span class="tag full">Full Tuition</span>
-            <span class="tag">GPA 5.00</span>
-            <span class="tag">Hostel Free</span>
-            <span class="tag">Stipend</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="scholarship-item">
-        <div class="scholarship-badge" style="background:linear-gradient(135deg, #2563eb, #1e40af);">
-          <span class="amount">75%</span>
-          <span class="label">Tuition</span>
-        </div>
-        <div class="scholarship-content">
-          <h3>🎓 Vice Chancellor's Merit Scholarship</h3>
-          <p>For students with GPA 4.80+ in SSC/HSC or equivalent. Renewable each semester with CGPA 3.75+ maintenance.</p>
-          <div class="scholarship-tags">
-            <span class="tag">GPA 4.80+</span>
-            <span class="tag">Renewable</span>
-            <span class="tag">CGPA 3.75+</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="scholarship-item">
-        <div class="scholarship-badge" style="background:linear-gradient(135deg, #059669, #047857);">
-          <span class="amount">50%</span>
-          <span class="label">Tuition</span>
-        </div>
-        <div class="scholarship-content">
-          <h3>🔬 STEM Excellence Scholarship</h3>
-          <p>For Engineering, CSE, and IT students with strong Math/Science background. Requires project proposal or coding competition participation.</p>
-          <div class="scholarship-tags">
-            <span class="tag">STEM Only</span>
-            <span class="tag">Project Required</span>
-            <span class="tag">Competition</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="scholarship-item">
-        <div class="scholarship-badge" style="background:linear-gradient(135deg, #db2777, #be185d);">
-          <span class="amount">50%</span>
-          <span class="label">Tuition</span>
-        </div>
-        <div class="scholarship-content">
-          <h3>👩‍🎓 Female Student Scholarship</h3>
-          <p>Special waiver for female students in all programs to promote women's education. Additional ৳ 10,000 book grant per year.</p>
-          <div class="scholarship-tags">
-            <span class="tag">Female Only</span>
-            <span class="tag">Book Grant</span>
-            <span class="tag">All Programs</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="scholarship-item">
-        <div class="scholarship-badge" style="background:linear-gradient(135deg, #7c3aed, #5b21b6);">
-          <span class="amount">25-50%</span>
-          <span class="label">Tuition</span>
-        </div>
-        <div class="scholarship-content">
-          <h3>🤝 Freedom Fighter Quota</h3>
-          <p>For children/grandchildren of Freedom Fighters (Muktijoddha). 50% waiver for direct descendants, 25% for grandchildren. Verified by Ministry of Liberation War Affairs.</p>
-          <div class="scholarship-tags">
-            <span class="tag">Muktijoddha</span>
-            <span class="tag">Govt Verified</span>
-            <span class="tag">Quota</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="scholarship-item">
-        <div class="scholarship-badge" style="background:linear-gradient(135deg, #b45309, #92400e);">
-          <span class="amount">Varies</span>
-          <span class="label">Need</span>
-        </div>
-        <div class="scholarship-content">
-          <h3>🏠 Financial Aid for Underprivileged</h3>
-          <p>Need-based aid for students from low-income families, tribal communities, and remote areas. Covers tuition, books, and partial hostel fees.</p>
-          <div class="scholarship-tags">
-            <span class="tag gold">Need-Based</span>
-            <span class="tag">Tribal</span>
-            <span class="tag">Remote Areas</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="admissions" style="background:#f1f5f9;">
-  <div class="container">
-    <div class="section-title">
-      <h2>ভর্তি প্রক্রিয়া (Admissions Process)</h2>
-      <p>Your journey starts here. Applications for Fall 2026 are now open.</p>
-    </div>
-    <div class="admission-steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <h3>অনলাইন আবেদন (Apply Online)</h3>
-        <p>Submit through our <a href="university_of_mhr_admission_form.html" style="color:var(--primary);">Online Admission Portal</a> or collect form from campus. Fee: ৳ 1,000 (non-refundable).</p>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <h3>ডকুমেন্টস জমা (Submit Documents)</h3>
-        <p>SSC & HSC transcripts, Testimonial, Character Certificate, 4 passport photos, NID/Birth Certificate, and Quota documents if applicable.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <h3>ভর্তি পরীক্ষা (Admission Test)</h3>
-        <p>Written test for Engineering & Medical. Viva voce for Business & Arts. Test dates published on website.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <h3>ফলাফল ও ভর্তি (Result & Enrollment)</h3>
-        <p>Merit list published online. Selected candidates must pay ৳ 25,000 admission fee within 7 days to confirm seat.</p>
-      </div>
-    </div>
-
-    <div style="background:white; border-radius:12px; padding:40px; margin-top:40px; box-shadow:0 4px 20px rgba(0,0,0,0.08);">
-      <h3 style="color:var(--primary); margin-top:0;">📋 Application Requirements by Program</h3>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px; margin-top:20px;">
-        <div>
-          <h4 style="color:var(--accent); margin-bottom:10px;">Undergraduate (স্নাতক)</h4>
-          <ul style="color:var(--gray); line-height:2; padding-left: 20px;">
-            <li>SSC & HSC / Equivalent passed</li>
-            <li>Minimum GPA: 2.50 (combined)</li>
-            <li>Engineering: Math & Physics required</li>
-            <li>Medical: Biology & Chemistry required</li>
-            <li>Valid HSC/equivalent certificate</li>
-            <li>NID or Birth Certificate</li>
-          </ul>
-        </div>
-        <div>
-          <h4 style="color:var(--accent); margin-bottom:10px;">Graduate (স্নাতকোত্তর)</h4>
-          <ul style="color:var(--gray); line-height:2; padding-left: 20px;">
-            <li>4-year Bachelor's degree</li>
-            <li>Minimum CGPA: 2.50 / 2nd Class</li>
-            <li>MBA: Any discipline accepted</li>
-            <li>M.Sc.: Relevant Bachelor's required</li>
-            <li>Work experience preferred (EMBA)</li>
-            <li>Recommendation letters (2)</li>
-          </ul>
-        </div>
-      </div>
-      <div style="margin-top:25px; padding:20px; background:#dcfce7; border-radius:8px;">
-        <strong style="color:var(--primary);">🔗 Apply Now:</strong>
-        <a href="https://admission.universityofmhr.edu.bd" target="_blank" style="color:var(--primary); margin-left:10px;">Online Admission Portal</a> |
-        <a href="#" style="color:var(--primary); margin-left:10px;">Download Form (PDF)</a> |
-        <a href="#" style="color:var(--primary); margin-left:10px;">Prospectus 2026</a>
-      </div>
+    <div class="sec-head"><h2>Our Campuses</h2></div>
+    <div class="campus-grid">
+      <div class="campus"><h3>📍 Main Campus</h3><p>Engineering, Science &amp; IT, Business. Labs, library and central admin.</p></div>
+      <div class="campus"><h3>📍 City Campus</h3><p>Law, Arts &amp; Social Science, evening and executive programs.</p></div>
+      <div class="campus"><h3>📍 Health Campus</h3><p>Nursing, Pharmacy and Public Health with teaching clinic.</p></div>
     </div>
   </div>
 </section>
 
 <section id="contact">
   <div class="container">
-    <div class="section-title">
-      <h2>যোগাযোগ (Contact Us)</h2>
-      <p>We're here to help with your application and questions</p>
-    </div>
-    <div class="contact-grid">
-      <div class="contact-info">
+    <div class="sec-head"><h2>Contact &amp; Request Information</h2><p>Questions about a program? Send us a message and the admissions office will reply.</p></div>
+    <div class="contact-wrap">
+      <div class="info-card">
         <h3>Admissions Office</h3>
-        <div class="contact-item">
-          <div class="contact-icon">📍</div>
-          <div>
-            <strong>Main Campus</strong>
-            <span>Plot # 77-78, Road # 9, Rupnagar R/A, Mirpur-2, Dhaka-1216</span>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-icon">📍</div>
-          <div>
-            <strong>City Campus</strong>
-            <span>House # 4, Road # 4, Dhanmondi, Dhaka-1205</span>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-icon">📞</div>
-          <div>
-            <strong>Phone</strong>
-            <span>+880 2-1234-5678 (Sat-Thu, 9AM-5PM)</span>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-icon">✉️</div>
-          <div>
-            <strong>Email</strong>
-            <span>admissions@universityofmhr.edu.bd</span>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-icon">🌐</div>
-          <div>
-            <strong>Website</strong>
-            <span>www.universityofmhr.edu.bd</span>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-icon">💬</div>
-          <div>
-            <strong>Facebook / WhatsApp</strong>
-            <span>fb.com/UniversityOfMHR | +880 1712-345678</span>
-          </div>
-        </div>
-
-        <h3 style="margin-top:30px;">Key Deadlines (Fall 2026)</h3>
-        <div style="background:white; padding:20px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
-          <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #e2e8f0;">
-            <span>Application Opens</span>
-            <strong>July 1, 2026</strong>
-          </div>
-          <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #e2e8f0;">
-            <span>Last Date to Apply</span>
-            <strong>September 15, 2026</strong>
-          </div>
-          <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #e2e8f0;">
-            <span>Admission Test</span>
-            <strong>September 25-30, 2026</strong>
-          </div>
-          <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #e2e8f0;">
-            <span>Result Publication</span>
-            <strong>October 5, 2026</strong>
-          </div>
-          <div style="display:flex; justify-content:space-between; padding:8px 0;">
-            <span>Class Starts</span>
-            <strong>October 15, 2026</strong>
-          </div>
-        </div>
+        <div class="info-row"><span class="ic">📞</span><div>+880 2-1234-5678<br><small>Sat–Thu, 9:00 am – 5:00 pm</small></div></div>
+        <div class="info-row"><span class="ic">📧</span><div>admissions@universityofmhr.edu.bd</div></div>
+        <div class="info-row"><span class="ic">📍</span><div>University of MHR, Main Campus, Bangladesh</div></div>
+        <div class="info-row"><span class="ic">🏛️</span><div><a href="university_of_mhr_faculty.html" style="color:var(--primary);font-weight:600">Chairman &amp; Faculty directory →</a></div></div>
       </div>
-
-      <div class="contact-form">
-        <h3 style="margin-top:0; color:var(--primary);">Request Information</h3>
-        <form id="inquiryForm" onsubmit="submitInquiry(event)">
-          <div class="form-group">
-            <label>Full Name (পূর্ণ নাম) *</label>
-            <input type="text" id="inq_name" placeholder="মোঃ রহিম আহমেদ / Rahim Ahmed" required>
-          </div>
-          <div class="form-group">
-            <label>Email Address *</label>
-            <input type="email" id="inq_email" placeholder="rahim@example.com" required>
-          </div>
-          <div class="form-group">
-            <label>Phone Number (মোবাইল)</label>
-            <input type="tel" id="inq_phone" placeholder="+880 1XXX-XXXXXX">
-          </div>
-          <div class="form-group">
-            <label>Program of Interest (আগ্রহের বিষয়) *</label>
-            <select id="inq_program" required>
-              <option value="">Select a program</option>
-              <option>B.Sc. in CSE (Computer Science)</option>
-              <option>B.Sc. in EEE (Electrical)</option>
-              <option>B.Sc. in Civil Engineering</option>
-              <option>B.Sc. in Mechanical Engineering</option>
-              <option>BBA (Business Administration)</option>
-              <option>LL.B. (Law)</option>
-              <option>B.Sc. in Nursing</option>
-              <option>BA in English</option>
-              <option>BSS in Economics</option>
-              <option>MBA (Master of Business)</option>
-              <option>M.Sc. in CSE</option>
-              <option>LL.M. (Master of Law)</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Message (বার্তা)</label>
-            <textarea id="inq_message" placeholder="আপনার শিক্ষাগত লক্ষ্য ও প্রশ্ন লিখুন... (Tell us about your goals and questions)"></textarea>
-          </div>
-          <button type="submit" class="submit-btn">Submit Inquiry (জমা দিন)</button>
-          <p id="inquiryStatus" style="margin-top:12px; font-weight:600; font-size:14px;"></p>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="about" style="background:#f1f5f9;">
-  <div class="container">
-    <div class="section-title">
-      <h2>কেন মহর বিশ্ববিদ্যালয়? (Why University of MHR?)</h2>
-      <p>A legacy of excellence, innovation, and national development</p>
-    </div>
-    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:30px;">
-      <div style="background:white; padding:30px; border-radius:12px; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,0.08); transition: transform 0.3s;">
-        <div style="font-size:40px; margin-bottom:15px;">🏆</div>
-        <h3 style="color:var(--primary); margin:0 0 10px;">UGC & Govt Approved</h3>
-        <p style="color:var(--gray);">All programs approved by University Grants Commission (UGC) Bangladesh and affiliated with National University.</p>
-      </div>
-      <div style="background:white; padding:30px; border-radius:12px; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,0.08); transition: transform 0.3s;">
-        <div style="font-size:40px; margin-bottom:15px;">🏭</div>
-        <h3 style="color:var(--primary); margin:0 0 10px;">Industry Partnerships</h3>
-        <p style="color:var(--gray);">MOUs with 200+ companies including Grameenphone, BRAC Bank, Square, and Beximco for internships and placements.</p>
-      </div>
-      <div style="background:white; padding:30px; border-radius:12px; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,0.08); transition: transform 0.3s;">
-        <div style="font-size:40px; margin-bottom:15px;">🌐</div>
-        <h3 style="color:var(--primary); margin:0 0 10px;">Global Recognition</h3>
-        <p style="color:var(--gray);">Exchange programs with universities in USA, UK, Australia, Malaysia, and India. Credit transfer available.</p>
-      </div>
+      <form class="form-card" id="inqForm" novalidate>
+        <h3>Request Information</h3>
+        <div class="row2">
+          <div class="field"><label for="i_name">Full name *</label><input id="i_name" required autocomplete="name"></div>
+          <div class="field"><label for="i_phone">Phone</label><input id="i_phone" type="tel" autocomplete="tel" placeholder="+880 1XXX-XXXXXX"></div>
+        </div>
+        <div class="field"><label for="i_email">Email *</label><input id="i_email" type="email" required autocomplete="email"></div>
+        <div class="field"><label for="i_program">Program of interest</label>
+          <select id="i_program"><option value="">Select</option></select></div>
+        <div class="field"><label for="i_msg">Message</label><textarea id="i_msg" rows="3"></textarea></div>
+        <button class="btn btn-primary" type="submit">Send Inquiry</button>
+        <p class="msg" id="inqMsg"></p>
+      </form>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="container">
-    <div class="footer-grid">
-      <div class="footer-col">
-        <h4>Academics (শিক্ষা)</h4>
-        <ul>
-          <li><a href="#">Undergraduate Programs</a></li>
-          <li><a href="#">Graduate Programs</a></li>
-          <li><a href="#">Diploma Courses</a></li>
-          <li><a href="#">Certificate Programs</a></li>
-          <li><a href="#">Research Centers</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Admissions (ভর্তি)</h4>
-        <ul>
-          <li><a href="#">How to Apply</a></li>
-          <li><a href="#">Tuition & Fees</a></li>
-          <li><a href="#">Scholarships</a></li>
-          <li><a href="#">Visit Campus</a></li>
-          <li><a href="#">Virtual Tour</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Campus Life (ক্যাম্পাস জীবন)</h4>
-        <ul>
-          <li><a href="#">Housing (হোস্টেল)</a></li>
-          <li><a href="#">Cafeteria</a></li>
-          <li><a href="#">Clubs & Organizations</a></li>
-          <li><a href="#">Sports & Athletics</a></li>
-          <li><a href="#">Health Center</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Resources (সম্পদ)</h4>
-        <ul>
-          <li><a href="#">Central Library</a></li>
-          <li><a href="#">Career Services</a></li>
-          <li><a href="#">IT Support</a></li>
-          <li><a href="#">Accessibility</a></li>
-          <li><a href="#">Safety & Security</a></li>
-        </ul>
-      </div>
+    <div class="foot-grid">
+      <div><h5>University of MHR · মহর বিশ্ববিদ্যালয়</h5><p style="font-size:14px">Quality higher education for Bangladesh, since day one.</p></div>
+      <div><h5>Explore</h5><a href="#about">About</a><a href="#programs">Programs</a><a href="university_of_mhr_faculty.html">Faculty</a></div>
+      <div><h5>Admission</h5><a href="university_of_mhr_admission_form.html">Apply Online</a><a href="#admission">Timeline</a><a href="university_of_mhr_admin.html">Admin Login</a></div>
     </div>
-    <div class="footer-bottom">
-      <p>© ২০২৬ মহর বিশ্ববিদ্যালয় · সর্বস্বত্ব সংরক্ষিত | <a href="#" style="color:#94a3b8;">Privacy Policy</a> | <a href="#" style="color:#94a3b8;">Terms of Use</a> | <a href="#" style="color:#94a3b8;">Accessibility</a></p>
-    </div>
+    <div class="copy">© ২০২৬ মহর বিশ্ববিদ্যালয় · University of MHR · All Rights Reserved</div>
   </div>
 </footer>
 
 <script>
-  function submitInquiry(event) {
-    event.preventDefault();
-    const statusEl = document.getElementById('inquiryStatus');
-    const data = {
-      name: document.getElementById('inq_name').value.trim(),
-      email: document.getElementById('inq_email').value.trim(),
-      phone: document.getElementById('inq_phone').value.trim(),
-      program: document.getElementById('inq_program').value,
-      message: document.getElementById('inq_message').value.trim(),
-      submittedAt: new Date().toISOString()
-    };
+  const FACULTIES = {
+    engineering:{label:'Engineering',programs:['B.Sc. in Computer Science & Engineering (CSE)','B.Sc. in Electrical & Electronic Engineering (EEE)','B.Sc. in Civil Engineering','B.Sc. in Mechanical Engineering','B.Sc. in Textile Engineering','B.Sc. in Architecture','M.Sc. in CSE','M.Sc. in EEE']},
+    business:{label:'Business',programs:['BBA (Bachelor of Business Administration)','MBA (Regular)','MBA (Executive)','EMBA','BBA in Accounting','BBA in Finance','BBA in Marketing']},
+    science:{label:'Science & IT',programs:['B.Sc. in Computer Science','B.Sc. in Software Engineering','B.Sc. in Data Science','B.Sc. in Cyber Security','B.Sc. in Information Technology','M.Sc. in Computer Science','M.Sc. in Data Science']},
+    health:{label:'Health Sciences',programs:['B.Sc. in Nursing','B.Pharm (Bachelor of Pharmacy)','MPH (Master of Public Health)','B.Sc. in Medical Technology','Diploma in Nursing']},
+    law:{label:'Law',programs:['LL.B. (Hons)','LL.M. (1 Year)','LL.M. (2 Years)','Diploma in Law']},
+    arts:{label:'Arts & Social Science',programs:['BA in English','BA in Bangla','BSS in Economics','BSS in Sociology','BSS in Political Science','BSS in Islamic Studies','BA in Journalism','MA in English','MSS in Economics']}
+  };
+  const esc = s => String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const store = {
+    get(k){ try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return []} },
+    set(k,v){ try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false} }
+  };
 
-    // Save locally so the admin page can list inquiries too.
-    // (Same limitation as applications: localStorage is per-browser, not a shared server.)
-    const inquiries = JSON.parse(localStorage.getItem('mhr_inquiries') || '[]');
-    inquiries.push(data);
-    localStorage.setItem('mhr_inquiries', JSON.stringify(inquiries));
-
-    const configured = typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY';
-    if (!configured) {
-      statusEl.style.color = '#92400e';
-      statusEl.textContent = '✅ Inquiry saved. ⚠️ Email not sent yet: EmailJS is not configured (see comment at top of this file).';
-      event.target.reset();
-      return;
-    }
-
-    statusEl.style.color = '#64748b';
-    statusEl.textContent = '📧 Sending...';
-    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_INQUIRY_TEMPLATE_ID, {
-      to_email: data.email,
-      to_name: data.name,
-      program: data.program,
-      phone: data.phone,
-      message: data.message
-    }).then(function () {
-      statusEl.style.color = '#166534';
-      statusEl.textContent = 'ধন্যবাদ! আমাদের ভর্তি পরামর্শক ২৪-৪৮ ঘণ্টার মধ্যে যোগাযোগ করবেন। (Thank you! Our counselor will contact you within 24-48 hours.)';
-      event.target.reset();
-    }).catch(function (err) {
-      statusEl.style.color = '#991b1b';
-      statusEl.textContent = '❌ Could not send confirmation email, but your inquiry was saved. We will still follow up.';
-      console.error('EmailJS error:', err);
-    });
+  let active = 'engineering';
+  function renderTabs(){
+    document.getElementById('facTabs').innerHTML = Object.entries(FACULTIES).map(([k,f]) =>
+      `<button class="fac-tab ${k===active?'active':''}" onclick="active='${k}';renderTabs();renderProgs()">${esc(f.label)}</button>`).join('');
   }
+  function renderProgs(){
+    const f = FACULTIES[active];
+    document.getElementById('progGrid').innerHTML = f.programs.map(p =>
+      `<div class="prog"><b>${esc(p)}</b><span>Faculty of ${esc(f.label)}</span><a href="university_of_mhr_admission_form.html">Apply →</a></div>`).join('');
+  }
+  renderTabs(); renderProgs();
+
+  const sel = document.getElementById('i_program');
+  Object.values(FACULTIES).forEach(f => { const g=document.createElement('optgroup'); g.label=f.label;
+    f.programs.forEach(p=>{const o=document.createElement('option');o.value=o.textContent=p;g.appendChild(o)}); sel.appendChild(g); });
+
+  const saved = store.get('mhr_faculty'); if (saved.length) document.getElementById('facCount').textContent = saved.length;
+
+  document.getElementById('inqForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const msg = document.getElementById('inqMsg');
+    const name = i_name.value.trim(), email = i_email.value.trim();
+    if (!name || !/^\S+@\S+\.\S+$/.test(email)) { msg.style.color='#991b1b'; msg.textContent='Please enter your name and a valid email.'; return; }
+    const list = store.get('mhr_inquiries');
+    list.push({ name, email, phone:i_phone.value.trim(), program:i_program.value, message:i_msg.value.trim(), submittedAt:new Date().toISOString() });
+    if (store.set('mhr_inquiries', list)) { msg.style.color='#166534'; msg.textContent='✅ Thank you, '+name+'. The admissions office will contact you soon.'; e.target.reset(); }
+    else { msg.style.color='#991b1b'; msg.textContent='Could not save — browser storage is unavailable.'; }
+  });
+  document.querySelectorAll('#links a').forEach(a=>a.addEventListener('click',()=>document.getElementById('links').classList.remove('open')));
 </script>
 </body>
 </html>
